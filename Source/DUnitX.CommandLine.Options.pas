@@ -109,15 +109,15 @@ type
     class constructor Create;
     class destructor Destroy;
   public
-    class function RegisterOption<T>(const longName: string; const shortName : string; const Action : TProc<T>) : IOptionDefintion;overload;
-    class function RegisterOption<T>(const longName: string; const shortName : string; const helpText : string; const Action : TProc<T>) : IOptionDefintion;overload;
-    class function RegisterUnNamedOption<T>(const helpText : string; const Action : TProc<T>) : IOptionDefintion;overload;
+    class function RegisterOption<T>(const longName: string; const shortName : string; const Action : TProcedure<T>) : IOptionDefintion;overload;
+    class function RegisterOption<T>(const longName: string; const shortName : string; const helpText : string; const Action : TProcedure<T>) : IOptionDefintion;overload;
+    class function RegisterUnNamedOption<T>(const helpText : string; const Action : TProcedure<T>) : IOptionDefintion;overload;
     class function AllRegisteredOptions : TList<IOptionDefintion>;
     class function Parse: ICommandLineParseResult;overload;
     class function Parse(const values : TStrings) : ICommandLineParseResult;overload;
     class property RegisteredOptions : TDictionary<string,IOptionDefintion> read FOptionsLookup;
     class property RegisteredUnamedOptions : TList<IOptionDefintion> read FUnnamedOptions;
-    class procedure PrintUsage(const proc : TProc<string>; const pad : integer = 30);
+    class procedure PrintUsage(const proc : TProcedure<string>; const pad : integer = 30);
   end;
 
 implementation
@@ -131,7 +131,7 @@ uses
 
 { TOptionsRegistry }
 
-class function TOptionsRegistry.RegisterOption<T>(const longName, shortName: string; const Action: TProc<T>): IOptionDefintion;
+class function TOptionsRegistry.RegisterOption<T>(const longName, shortName: string; const Action: TProcedure<T>): IOptionDefintion;
 begin
   if longName = '' then
     raise Exception.Create(SNameRequired);
@@ -187,7 +187,7 @@ begin
   result := parser.Parse(values);
 end;
 
-class procedure TOptionsRegistry.PrintUsage(const proc: TProc<string>; const pad : integer);
+class procedure TOptionsRegistry.PrintUsage(const proc: TProcedure<string>; const pad : integer);
 var
   option : IOptionDefintion;
   helpString : string;
@@ -210,16 +210,16 @@ begin
     if option.HelpText <> '' then
       helpString := helpString + ' - ' + option.HelpText;
     proc(helpString)
-  end;  
+  end;
 end;
 
-class function TOptionsRegistry.RegisterOption<T>(const longName, shortName, helpText: string; const Action: TProc<T>): IOptionDefintion;
+class function TOptionsRegistry.RegisterOption<T>(const longName, shortName, helpText: string; const Action: TProcedure<T>): IOptionDefintion;
 begin
     result := RegisterOption<T>(longName,shortName,Action);
   result.HelpText := helpText;
 end;
 
-class function TOptionsRegistry.RegisterUnNamedOption<T>(const helpText: string; const Action: TProc<T>): IOptionDefintion;
+class function TOptionsRegistry.RegisterUnNamedOption<T>(const helpText: string; const Action: TProcedure<T>): IOptionDefintion;
 begin
   result := TOptionDefinition<T>.Create('','',helptext,Action);
   result.HasValue := false;

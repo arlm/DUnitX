@@ -34,7 +34,11 @@ uses
   {$IFDEF USE_NS}
   System.TimeSpan,
   {$ELSE}
-  TimeSpan,
+  {$IFDEF FPC}
+SysUtils,
+  {$ELSE}
+TimeSpan
+  {$ENDIF}
   {$ENDIF}
   DUnitX.Types,
   DUnitX.Generics,

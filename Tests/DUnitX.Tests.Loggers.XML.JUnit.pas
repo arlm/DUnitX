@@ -68,7 +68,9 @@ uses
   {$ELSE}
   Rtti,
   SysUtils,
-  TimeSpan,
+  {$IFNDEF FPC}
+TimeSpan
+  {$ENDIF}
   DateUtils,
   {$ENDIF}
 {$IFDEF DELPHI_XE2_UP}

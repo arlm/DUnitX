@@ -57,7 +57,6 @@
   POSSIBILITY OF SUCH DAMAGE.
 *)
 
-
 unit DUnitX.Utils;
 
 interface
@@ -74,14 +73,16 @@ uses
   System.TypInfo;
   {$ELSE}
   Generics.Collections,
-  TimeSpan,
+  {$IFDEF FPC}
+  Classes,
+  {$ELSE}
+TimeSpan,
+  {$ENDIF}
   Rtti,
   SysUtils,
   Types,
   TypInfo;
   {$ENDIF}
-
-
 
 type
   TCustomAttributeClass = class of TCustomAttribute;
@@ -683,7 +684,7 @@ type
     FPropInfo: TPropInfo;
     {$ENDIF}
     FGetter: TFunc<Pointer, TValue>;
-    FSetter: TProc<Pointer, TValue>;
+    FSetter: TProcedure<Pointer, TValue>;
     class var
       FRegister: TDictionary<TPair<PTypeInfo, string>, TRttiPropertyExtension>;
       FPatchedClasses: TDictionary<TClass, TClass>;
@@ -711,7 +712,7 @@ type
     class function FindByName(const FullPropertyName: string): TRttiPropertyExtension; overload;
 
     property Getter: TFunc<Pointer, TValue> read FGetter write FGetter;
-    property Setter: TProc<Pointer, TValue> read FSetter write FSetter;
+    property Setter: TProcedure<Pointer, TValue> read FSetter write FSetter;
   end;
 
 

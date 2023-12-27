@@ -49,7 +49,9 @@ uses
   SyncObjs,
   TypInfo,
   Rtti,
+  {$IFNDEF FPC}
   TimeSpan,
+  {$ENDIF}
   Generics.Collections,
   {$ENDIF}
   DUnitX.Assert,
@@ -95,7 +97,7 @@ type
 
   TTestMethod = DUnitX.Extensibility.TTestMethod;
 
-  TTestLocalMethod = TProc;
+  TTestLocalMethod = TProcedure;
 
   {$SCOPEDENUMS ON}
   TLogLevel = (Information, Warning, Error);

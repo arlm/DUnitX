@@ -45,14 +45,14 @@ uses
   {$ENDIF}
 
 type
-  TTestLocalMethod = TProc;
+  TTestLocalMethod = TProcedure;
 
   TTestMethod = procedure of object;
 
   Assert = class
   private
     class var fIgnoreCaseDefault: boolean;
-    class var fOnAssert: TProc;
+    class var fOnAssert: TProcedure;
     class var fTestFailure: ExceptClass;
     class var fTestPass: ExceptClass;
     class procedure CheckExceptionClass(E: Exception; const exceptionClass: ExceptClass);
@@ -130,7 +130,11 @@ type
     class procedure DoesNotContain<T>(const list : IEnumerable<T>; const value : T; const message : string = '');overload;
     class procedure DoesNotContain<T>(const arr : array of T; const value : T; const message : string = '');overload;
 {$ENDIF}
+{$IFDEF FPC}
+    class Function Implements<T : IInterface>(value : IInterface; Const message :  String = '' ) : T;
+{$ELSE}
     class function Implements<T : IInterface>(value : IInterface; const message : string = '' ) : T;
+{$ENDIF}
     class procedure IsTrue(const condition : boolean; const message : string = '');
     class procedure IsFalse(const condition : boolean; const message : string = '');
 
@@ -279,7 +283,7 @@ type
 
     class procedure CheckExpectation(const EmptyExpectation: String; const Message: String = '');
 
-    class property OnAssert: TProc read fOnAssert write fOnAssert;
+    class property OnAssert: TProcedure read fOnAssert write fOnAssert;
     class property TestFailure: ExceptClass read fTestFailure write fTestFailure;
     class property TestPass: ExceptClass read fTestPass write fTestPass;
     class property IgnoreCaseDefault: boolean read fIgnoreCaseDefault write fIgnoreCaseDefault;

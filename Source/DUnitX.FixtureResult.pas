@@ -37,7 +37,11 @@ uses
   System.Diagnostics,
   {$ELSE}
   Classes,
-  TimeSpan,
+  {$IFDEF FPC}
+SysUtils,
+  {$ELSE}
+TimeSpan
+  {$ENDIF}
   Diagnostics,
   {$ENDIF}
   DUnitX.Generics,

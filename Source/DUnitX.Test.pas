@@ -39,7 +39,9 @@ uses
   System.TypInfo,
   {$ELSE}
   Generics.Collections,
-  TimeSpan,
+  {$IFNDEF FPC}
+TimeSpan
+  {$ENDIF}
   Rtti,
   SysUtils,
   {$ENDIF}

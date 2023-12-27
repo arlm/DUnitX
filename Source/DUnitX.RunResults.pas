@@ -38,7 +38,11 @@ uses
   System.Generics.Collections,
   {$ELSE}
   Classes,
-  TimeSpan,
+  {$IFDEF FPC}
+SysUtils,
+  {$ELSE}
+  TimeSpan
+  {$ENDIF}
   Diagnostics,
   Generics.Collections,
   {$ENDIF}

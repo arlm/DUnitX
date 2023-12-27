@@ -36,7 +36,9 @@ uses
   System.Timespan,
   {$ELSE}
   SysUtils,
-  Timespan,
+  {$IFNEF FPC}
+TimeSpan
+  {$ENDIF}
   {$ENDIF}
   DUnitX.TestFramework,
   DUnitX.WeakReference,
